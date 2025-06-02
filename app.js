@@ -13,23 +13,32 @@ function calcularPPR() {
     const ebitda = parseFloat(document.getElementById('ebitda').value);
 
     // Calculate the average of the results
-    const mediaResultados = (((resultado1 + resultado2 + resultado3 + resultado4) / 4)*0.7)+(ebitda*0.3);
-
-    let multiplicadorCategoria;
-    if (categoria === "01") {
-        multiplicadorCategoria = 0.10;
-    } else if (categoria === "02") {
-        multiplicadorCategoria = 0.20;
-    } else if (categoria === "03") {
-        multiplicadorCategoria = 0.30;
+        let mediaResultados;
+    if (categoria === "04") {
+        mediaResultados = (((resultado1 + resultado2 + resultado3 + resultado4) / 4) * 0.3) + (ebitda * 0.7);
+    } else {
+        mediaResultados = (((resultado1 + resultado2 + resultado3 + resultado4) / 4) * 0.7) + (ebitda * 0.3);
     }
 
-    const resultadoPPR = (((salario * meses) * (mediaResultados * 13.33 * multiplicadorCategoria).toFixed(4)) / 12)/100;
+    let multiplicadorGrupoCargo;
+    if (grupoCargo === "01") {
+        multiplicadorGrupoCargo = 0.10;
+    } else if (grupoCargo === "02") {
+        multiplicadorGrupoCargo = 0.20;
+    } else if (grupoCargo === "03") {
+        multiplicadorGrupoCargo = 0.30;
+    }
 
-    document.getElementById('resultado').innerText = `Valor Bruto: R$ ${resultadoPPR.toFixed(2)}
- Aviso Importante: O valor apresentado é bruto, ou seja, sem desconto de taxa sindical (Valor de acordo com o Acordo Coletivo da Filial) e Imposto de Renda (Para valores acima de R$ 7640,80).`;
+    const resultadoPPR = (((salario * meses) * (mediaResultados * 13.33 * multiplicadorGrupoCargo).toFixed(4)) / 12)/100;
+
+
+
+    document.getElementById('resultado').innerHTML = `<strong>Valor Bruto: ${resultadoPPR.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong> 
+    <p></p>
+    Aviso Importante: O valor apresentado é bruto, ou seja, sem desconto de taxa sindical (Valor de acordo com o Acordo Coletivo da Filial) e Imposto de Renda (Para valores acima de R$ 7640,80).`;
 
     let resultado = 0; 
+
     const relatorio = `
         <h2>Relatório de Cálculo</h2>
         <p><strong>Grupo de Cargo:</strong> ${grupoCargo}</p>
@@ -41,7 +50,7 @@ function calcularPPR() {
         <p><strong>Resultado 3º Trimestre:</strong> ${resultado3}</p>
         <p><strong>Resultado 4º Trimestre:</strong> ${resultado4}</p>
         <p><strong>Resultado EBITDA:</strong> ${ebitda}</p>
-        <p><strong>Target:</strong> ${multiplicadorCategoria}</p>
+        <p><strong>Target:</strong> ${multiplicadorGrupoCargo}</p>
     `;
     document.getElementById('relatorio').innerHTML = relatorio;
     document.getElementById('logo-container').style.display = 'block';
