@@ -73,6 +73,9 @@ function limparCampos() {
 
 
 
+function Voltar() { window.location.href = "https://diegofausto.github.io/calculadorascanpackers";
+}
+
 
 
 
